@@ -117,6 +117,31 @@ function server() {
         })
 
 
+    // Delete実装
+    app.delete("/api/todos/:param" , (req,res)=>{
+        const id = req.params.param;
+        
+        // 簡単なバリデート実装（id指定じゃなかったらエラーを返す）
+
+        if(isNaN(id)){
+            return res.status(400).json({error : 'IDで指定してください'})
+        }
+
+        // テーブルからのデータ削除
+        knex(TODOS_TABLE)
+            .delete()
+            .where({id:id})
+            .then((result) => {
+            res.status(200).json({ message: 'delete Completed' });
+            })
+            .catch((error) => {
+            console.error("Error selecting todos by id:", error);
+            res.status(500).send("Internal Server Error");
+            });
+        
+        })
+
+
   return app;
 }
 

@@ -108,7 +108,7 @@ function server() {
                     return res.status(404).json({ error: 'Todo not found' });
                 }
 
-                res.status(200).json(result);
+                res.status(201).json(result);
 
             })
             .catch((error) =>{

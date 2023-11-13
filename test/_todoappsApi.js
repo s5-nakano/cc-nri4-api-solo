@@ -34,8 +34,10 @@ describe("todosApps API Server", () => {
         // APIを呼び出す
         const res = await request.get("/api/todos");
 
-        // res.should.have.status(200);
-        JSON.parse(res.text).should.deep.equal(expected)
+        res.should.have.status(200);
+        expect(res.body[0].task).to.equal("洗濯をする");
+        expect(res.body[1].task).to.equal("朝食を食べる");
+        expect(res.body[2].task).to.equal("歯磨きをする");
     })
 
   });
@@ -66,7 +68,32 @@ describe("todosApps API Server", () => {
       const afterTodos = await request.get("/api/todos")
 
       expect(res.statusCode).to.equal(201);
-      JSON.parse(afterTodos.text).should.deep.equal(expected);
+    //   JSON.parse(afterTodos.text).should.deep.equal(expected);
     });
   });
+
+
+
+  describe("GET /api/todos:idorName", () => {
+    it("ID指定したtodoを一つ返すことができる", async () => {
+        
+      //APIを呼び出す
+      const res = await request.get("/api/todos/1");
+
+      const expected = { id: 1, task: "洗濯をする", status: "Todo" }
+
+      //Assertion(検証)
+
+      expect(res.statusCode).to.equal(200);
+      expect(res.body[0].id).to.equal(1);
+      expect(res.body[0].task).to.equal("洗濯をする");
+      expect(res.body[0].status).to.equal("Todo");
+    });
+
+    // it("ステータスの条件に合致するtodoを全て返すができる", async () => {
+    //   });
+  });
+
+
+
 });

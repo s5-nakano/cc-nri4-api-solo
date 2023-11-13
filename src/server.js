@@ -50,7 +50,6 @@ function server() {
             task,
             status
         })
-        console.log("ここまで行ったよ！");
 
     })
     .catch((error)=>{
@@ -58,6 +57,36 @@ function server() {
         res.status(500).json({error:"Internal Server Error"})
     })
   });
+
+
+    // Get(id指定)実装
+    app.get("/api/todos/:param" , (req,res)=>{
+        const id = req.params.param;
+        
+        // 簡単なバリデート実装（id指定じゃなかったらエラーを返す）
+
+        if(isNaN(id)){
+            return res.status(400).json({error : 'IDで指定してください'})
+        }
+
+        knex(TODOS_TABLE)
+          .select()
+          .where({id:id})
+          .then((result) => {
+            if(result.length ===0){
+                return res.status(404).json({ error: 'Todo not found' });
+            }
+            res.status(200).json(result);
+            console.log("ここまで行ったよ!");
+            console.log(result);
+          })
+          .catch((error) => {
+            console.error("Error selecting todos by id:", error);
+            res.status(500).send("Internal Server Error");
+          });
+     
+      })
+
 
   return app;
 }

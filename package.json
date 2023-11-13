@@ -1,11 +1,11 @@
 {
-  "name": "api-solo",
+  "name": "cc-nri4-api-solo",
   "version": "1.0.0",
-  "description": "Gotta Rest 'em all!",
+  "description": "My First Project",
   "main": "index.js",
   "repository": "git@github.com:s5-nakano/cc-nri4-api-solo.git",
-  "author": "Felix Kirmse <felix@codechrysalis.io>",
-  "license": "UNLICENSED",
+  "author": "",
+  "license": "ISC",
   "private": true,
   "scripts": {
     "start": "node ./src/index.js",

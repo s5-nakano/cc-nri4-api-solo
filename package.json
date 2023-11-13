@@ -11,7 +11,9 @@
     "start": "node ./src/index.js",
     "dev": "nodemon ./src/index.js",
     "lint": "eslint --fix --ext .js .",
-    "test": "mocha test && npm run lint"
+    "test": "mocha test && npm run lint",
+    "migrate": "knex migrate:latest",
+    "seed": "knex seed:run"
   },
   "husky": {
     "hooks": {
@@ -19,8 +21,11 @@
     }
   },
   "dependencies": {
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "nodemon": "^3.0.1"
+    "knex": "^3.0.1",
+    "nodemon": "^3.0.1",
+    "pg": "^8.11.3"
   },
   "devDependencies": {
     "chai": "^4.3.10",

@@ -96,28 +96,17 @@ describe("todosApps API Server", () => {
 
 
   describe("PATCH /api/todos:id", () => {
-    it("todoをid指定して、ステータスを変更することができる。", async () => {
-      // 準備
-      const reqBody = {status : "Done"}
-
-      // 検証用データ
-      const expected = [
-            { id: 2, task: "朝食を食べる", status: "Done" },
-        ]
-
+    it("todoをid指定して、削除することができる。", async () => {
 
       //APIを呼び出す
-      const res = await request.patch("/api/todos/2").send(reqBody);
+      const res = await request.delete("/api/todos/6");
 
       //Assertion(検証)
       request = chai.request(server);
-      const res2 = await request.get("/api/todos/2");
+      const res2 = await request.get("/api/todos/6");
+      res.should.have.status(200);
+      res2.text.should.be.equal('{"error":"Todo not found"}');
 
-
-      expect(res.statusCode).to.equal(200);
-      expect(res2.body[0].id).to.equal(2);
-      expect(res2.body[0].task).to.equal("朝食を食べる");
-      expect(res2.body[0].status).to.equal("Done");
 
     });
   });

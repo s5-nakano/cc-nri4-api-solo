@@ -51,7 +51,7 @@ describe("todosApps API Server", () => {
         status: "Todo",
       };
 
-      // 検証用データ(get未実装のため、req→resを簡易的に確認)
+      // 検証用データ
       const expected = [
             { id: 1, task: "洗濯をする", status: "Todo" },
             { id: 2, task: "朝食を食べる", status: "In Progress" },
@@ -74,7 +74,7 @@ describe("todosApps API Server", () => {
 
 
 
-  describe("GET /api/todos:idorName", () => {
+  describe("GET /api/todos:idorStatus", () => {
     it("ID指定したtodoを一つ返すことができる", async () => {
         
       //APIを呼び出す
@@ -92,6 +92,34 @@ describe("todosApps API Server", () => {
 
     // it("ステータスの条件に合致するtodoを全て返すができる", async () => {
     //   });
+  });
+
+
+  describe("PATCH /api/todos:id", () => {
+    it("todoをid指定して、ステータスを変更することができる。", async () => {
+      // 準備
+      const reqBody = {status : "Done"}
+
+      // 検証用データ
+      const expected = [
+            { id: 2, task: "朝食を食べる", status: "Done" },
+        ]
+
+
+      //APIを呼び出す
+      const res = await request.patch("/api/todos/2").send(reqBody);
+
+      //Assertion(検証)
+      request = chai.request(server);
+      const res2 = await request.get("/api/todos/2");
+
+
+      expect(res.statusCode).to.equal(200);
+      expect(res2.body[0].id).to.equal(2);
+      expect(res2.body[0].task).to.equal("朝食を食べる");
+      expect(res2.body[0].status).to.equal("Done");
+
+    });
   });
 
 

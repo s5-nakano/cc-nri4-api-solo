@@ -23,6 +23,7 @@ function server() {
   app.get("/api/todos" , (req,res)=>{
     knex(TODOS_TABLE)
       .select()
+      .orderBy('id','asc')
       .then((result) => {
         // Send the response inside the then block
         res.status(200).json(result);
@@ -43,7 +44,7 @@ function server() {
     if(!task || !status){
         return res.status(400).json({error : '登録するための情報が不足しています。'})
     }
-    // テーブルへの追加処理の実装
+    // テーブルへの追加処理
     knex(TODOS_TABLE).insert({task,status})
     .then((result)=>{
         res.status(201).json({
@@ -56,7 +57,7 @@ function server() {
         console.error("Error inserting todo" , error);
         res.status(500).json({error:"Internal Server Error"})
     })
-  });
+    });
 
 
     // Get(id指定)実装
@@ -69,23 +70,51 @@ function server() {
             return res.status(400).json({error : 'IDで指定してください'})
         }
 
+        // テーブルからのデータ取得
         knex(TODOS_TABLE)
-          .select()
-          .where({id:id})
-          .then((result) => {
+            .select()
+            .where({id:id})
+            .then((result) => {
             if(result.length ===0){
                 return res.status(404).json({ error: 'Todo not found' });
             }
             res.status(200).json(result);
-            console.log("ここまで行ったよ!");
-            console.log(result);
-          })
-          .catch((error) => {
+            })
+            .catch((error) => {
             console.error("Error selecting todos by id:", error);
             res.status(500).send("Internal Server Error");
-          });
-     
-      })
+            });
+        
+        })
+
+    // Patch実装
+
+    app.patch("/api/todos/:param" , (req,res)=>{
+        const id = req.params.param;
+        const reqBody = req.body;
+        
+        // 簡単なバリデート実装（id指定じゃなかったらエラーを返す）
+
+        if(isNaN(id)){
+            return res.status(400).json({error : 'PatchしたいならIDで指定してください'})
+        }
+
+        // ステータスのupdate
+        knex(TODOS_TABLE)
+            .where({id:id})
+            .update({status: reqBody.status})
+            .then((result)=>{
+                if(result ===0){
+                    return res.status(404).json({ error: 'Todo not found' });
+                }
+
+                res.status(200).json(result);
+
+            })
+            .catch((error) =>{
+                console.error("Error updating todo", error);
+                res.status(500).send("Internal Server Error");            })
+        })
 
 
   return app;

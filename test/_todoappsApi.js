@@ -104,7 +104,7 @@ describe("todosApps API Server", () => {
       //Assertion(検証)
       request = chai.request(server);
       const res2 = await request.get("/api/todos/6");
-      res.should.have.status(200);
+      res.should.have.status(201);
       res2.text.should.be.equal('{"error":"Todo not found"}');
 
 

@@ -12,6 +12,8 @@ const App = () => {
   const [todo, setTodo] = useState([]);
   const [newTask,setNewTask] = useState('');
   const [newStatus,setNewStatus] = useState('');
+  const [updatedStatus, setUpdatedStatus] = useState({});
+
 
   const darkTheme = createTheme({
     palette: {
@@ -69,15 +71,15 @@ const App = () => {
     }
 
     // ステータス編集(patch)
-    const handleUpdateStatus = (id,newStatus) =>{
-      fetch(`http://localhost:3001/api/todos${id}`,{
+    const handleUpdateStatus = (id) =>{
+      fetch(`http://localhost:3001/api/todos/${id}`,{
         method: "PATCH",
         mode : "cors",
         headers: {
           "Content-type": "application/json",
         },
         body: JSON.stringify({
-          status: newStatus,
+          status: updatedStatus[id],
         })
       })
       .then((res) => res.json())
@@ -146,13 +148,17 @@ const App = () => {
                       <TextField 
                         label = "更新後ステータス"
                         variant = "outlined"
-                        value = {newStatus}
-                        onChange={(e) => setNewStatus(e.target.value)}
-                      />
+                        value={updatedStatus[element.id] || ""}
+                        onChange={(e) =>
+                          setUpdatedStatus({
+                            ...updatedStatus,
+                            [parseInt(element.id)]: e.target.value,
+                          })
+                        }                      />
                       <Button 
                         variant='contained'
-                        onClick={()=> handleUpdateStatus(element.id,newStatus)}
-                      >
+                        onClick={() => handleUpdateStatus(parseInt(element.id))}
+                        >
                         ステータスを更新
                       </Button>
                     </TableCell>

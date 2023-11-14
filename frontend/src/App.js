@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Stack } from '@mui/material'; //getAll用コンポーネント
-import { Button, TextField, Typography, List, ListItem } from '@mui/material'; // Postフォーム用コンポーネント
+import { Button, TextField, Typography } from '@mui/material'; // Postフォーム用コンポーネント
 import { AppBar,Toolbar,IconButton,Box} from '@mui/material'; // バー用コンポーネント
 // import { Stack,Typography,ThemeProvider,createTheme} from '@mui/material' ///フォームのバー用コンポーネント
 import { ThemeProvider, createTheme } from '@mui/material/styles';//フォームのバー用コンポーネント
@@ -33,7 +33,7 @@ const App = () => {
       method: "GET" ,
       mode :"cors",
       headers:{
-        "Content-Type": "aplication/json",
+        "Content-type": "application/json",
       }})
       .then((res) => res.json())
       .then((data) => {
@@ -46,11 +46,11 @@ const App = () => {
   
     // 登録(Post)
     const handleAddTodo = () =>{
-      fetch(url,{
+      fetch(url , {
         method:"POST",
         mode:"cors",      
         headers:{
-          "Content-Type": "aplication/json",
+          "Content-type": "application/json",
         },
         body: JSON.stringify({
           task:newTask,
@@ -70,11 +70,11 @@ const App = () => {
 
     // ステータス編集(patch)
     const handleUpdateStatus = (id,newStatus) =>{
-      fetch('http://localhost:3001/api/todos${id}',{
+      fetch(`http://localhost:3001/api/todos${id}`,{
         method: "PATCH",
         mode : "cors",
         headers: {
-          "Content-type": "aplication/json",
+          "Content-type": "application/json",
         },
         body: JSON.stringify({
           status: newStatus,
@@ -87,6 +87,21 @@ const App = () => {
       .catch((err) => {
         console.error("Error Patching Status!!",err)
       })
+    }
+
+    // タスク削除(delete)
+    const handleDeleteTodo = (id) => {
+      fetch(`http://localhost:3001/api/todos/${id}`, {
+        method: "DELETE",
+        mode: "cors",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          fetchData();
+        })
+        .catch((err) => {
+          console.error("Error Deleting Todo!!", err)
+        })
     }
 
   
@@ -118,6 +133,7 @@ const App = () => {
                   <TableCell>Task</TableCell>
                   <TableCell>Status</TableCell>
                   <TableCell>Update Status</TableCell>
+                  <TableCell>Delete Task</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -138,6 +154,14 @@ const App = () => {
                         onClick={()=> handleUpdateStatus(element.id,newStatus)}
                       >
                         ステータスを更新
+                      </Button>
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        variant='contained'
+                        onClick={()=> handleDeleteTodo(element.id)}
+                      >
+                        削除
                       </Button>
                     </TableCell>
                   </TableRow>

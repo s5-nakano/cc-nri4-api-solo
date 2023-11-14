@@ -11,6 +11,18 @@ function server() {
   app.use(express.json());
   app.use(express.text());
 
+  // cors対策
+  app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, PATCH, DELETE, OPTION"
+    );
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    next();
+  });
+  
+
   app.get("/healthcheck", (req, res) => {
     res.sendStatus(200);
   });

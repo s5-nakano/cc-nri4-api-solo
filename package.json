@@ -13,7 +13,8 @@
     "lint": "eslint --fix --ext .js .",
     "test": "mocha test && npm run lint",
     "migrate": "knex migrate:latest",
-    "seed": "knex seed:run"
+    "seed": "knex seed:run",
+    "down": "knex migrate:down"
   },
   "husky": {
     "hooks": {

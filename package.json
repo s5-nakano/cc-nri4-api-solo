@@ -14,7 +14,8 @@
     "test": "mocha test && npm run lint",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
-    "down": "knex migrate:down"
+    "down": "knex migrate:down",
+    "prettier": "prettier --write src/."
   },
   "husky": {
     "hooks": {

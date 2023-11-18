@@ -2,8 +2,8 @@
 exports.seed = function (knex) {
   return knex("todos")
     .del()
-    .then(()=>{
-      return knex.raw('ALTER SEQUENCE todos_id_seq RESTART WITH 1'); // Reset the id sequence
+    .then(() => {
+      return knex.raw("ALTER SEQUENCE todos_id_seq RESTART WITH 1"); // Reset the id sequence
     })
     .then(() => {
       return knex("todos").insert([

@@ -5,6 +5,12 @@ on:
   pull_request:
     branches:
       - master
+  workflow_dispatch:
+    inputs:
+      handleParamater:
+        description: "説明"
+        required: true
+        default: "デフォルト値"
 
 # ワークフローで実行されるジョブをグループ化
 jobs:

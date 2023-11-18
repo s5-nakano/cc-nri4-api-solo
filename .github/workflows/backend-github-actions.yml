@@ -2,15 +2,10 @@
 name: cc-solo-backend--github-actions
 # masterブランチにPR
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - master
-  workflow_dispatch:
-    inputs:
-      handleParamater:
-        description: "説明"
-        required: true
-        default: "デフォルト値"
 
 # ワークフローで実行されるジョブをグループ化
 jobs:
@@ -18,16 +13,16 @@ jobs:
   #静的解析してみる
   format:
     # 最新バージョンのmacOSランナーで実行するようにジョブを構成(Linuxにしたいときはubuntuなど可能)
-    runs-on: macOS-latast
+    runs-on: macos-latest
     steps:
       #リポジトリをチェックアウトしソースを利用可能にする
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: "20"
+          node-version: "20.9.0"
       - name: install
         run: npm install
-      - name: Prittier
-        run: npm run pritter
       - name: ESLint
         run: npm run lint
+      - name: Prettier
+        run: npm run prettier

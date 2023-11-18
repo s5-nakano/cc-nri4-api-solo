@@ -1,5 +1,6 @@
 # ワークフローの名前(任意)
 name: cc-solo-backend--github-actions
+
 # masterブランチにPR
 on:
   workflow_dispatch:

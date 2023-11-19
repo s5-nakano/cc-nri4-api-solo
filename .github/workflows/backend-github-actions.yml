@@ -28,6 +28,12 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
+      #dockerをインストールしておく
+      - name: Install Docker
+        run: |
+          curl -fsSL https://get.docker.com -o get-docker.sh
+          sh get-docker.sh
+          sudo usermod -aG docker $USER
       #リポジトリをチェックアウトしソースを利用可能にする
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2

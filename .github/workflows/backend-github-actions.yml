@@ -50,6 +50,8 @@ jobs:
         run: npm run prettier
 
       # DBセットアップ
+      - name: DBcheck
+        run: ping postgres
       - name: Run migrations
         run: npm run migrate # Knexを使用してデータベースマイグレーションを実行
       - name: Run seed

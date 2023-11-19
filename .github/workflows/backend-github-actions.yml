@@ -53,7 +53,7 @@ jobs:
 
       # DBセットアップ
       - name: DBcheck
-        run: ping postgres
+        run: ping 127.0.0.1
       - name: Run migrations
         run: npm run migrate # Knexを使用してデータベースマイグレーションを実行
       - name: Run seed

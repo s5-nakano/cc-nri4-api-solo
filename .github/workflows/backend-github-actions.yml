@@ -19,7 +19,7 @@ jobs:
     # 最新バージョンのPostgresqlを起動
     services:
       postgres:
-        image: postgres:latest
+        image: postgres
         env:
           POSTGRES_USER: shota.nakano # データベースユーザー名
           POSTGRES_PASSWORD: postgres # データベースパスワード
@@ -29,6 +29,8 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        ports:
+          - 5432:5432
     steps:
       # #dockerをインストールしておく
       # - name: Install Docker

@@ -51,4 +51,4 @@ typings/
 *.tgz
 
 # envファイル
-.env.local
+# .env.local

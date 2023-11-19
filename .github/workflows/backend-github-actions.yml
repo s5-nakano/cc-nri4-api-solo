@@ -21,7 +21,7 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_USER: postgres # データベースユーザー名
+          POSTGRES_USER: shota.nakano # データベースユーザー名
           POSTGRES_PASSWORD: postgres # データベースパスワード
           POSTGRES_DB: todo_apps # データベース名
         options: >-

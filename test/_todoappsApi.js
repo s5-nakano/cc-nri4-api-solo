@@ -91,11 +91,11 @@ describe("todosApps API Server", () => {
   describe("PATCH /api/todos:id", () => {
     it("todoをid指定して、削除することができる。", async () => {
       //APIを呼び出す
-      const res = await request.delete("/api/todos/6");
+      const res = await request.delete("/api/todos/1");
 
       //Assertion(検証)
       request = chai.request(server);
-      const res2 = await request.get("/api/todos/6");
+      const res2 = await request.get("/api/todos/1");
       res.should.have.status(201);
       res2.text.should.be.equal('{"error":"Todo not found"}');
     });
